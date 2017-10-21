@@ -9,13 +9,13 @@ use Home\Model\SquareModel;
 class CvController extends Controller
 {
 	public function postCV($account){
-		//$json=file_get_contents('php://input');
+		$json=file_get_contents('php://input');
 		$where['user']=$account;
-		$json='{"city":"aaa","company":"asdasfdqew","disabilitylevel":"一级","disabilitytype":"视力残疾","education":[{"admissiondate":"2017-01","graduationdate":"2017-04","major":"computer","school":"qawdas"}],"email":"aaa","expectlocation":"aaa","expectposition":"aaa","expectsalary":"aaa","havedisabilitycard":"有","head":"http://115.28.202.143/jobBook/Public/src/head/2016-09-04/57cb9214f0044.jpg","name":"raymond","position":"aefae","sex":"男","status":"qwed","telephone":"aaa","work":[{"company":"aaa","dimissiondate":"2016-09","inaugurationdate":"2016-09","position":"aaa"}]}';
+		// $json='{"city":"aaa","company":"asdasfdqew","disabilitylevel":"一级","disabilitytype":"视力残疾","education":[{"admissiondate":"2017-01","graduationdate":"2017-04","major":"computer","school":"qawdas"}],"email":"aaa","expectlocation":"aaa","expectposition":"aaa","expectsalary":"aaa","havedisabilitycard":"有","head":"http://115.28.202.143/jobBook/Public/src/head/2016-09-04/57cb9214f0044.jpg","name":"raymond","position":"aefae","sex":"男","status":"qwed","telephone":"aaa","work":[{"company":"aaa","dimissiondate":"2016-09","inaugurationdate":"2016-09","position":"aaa"}]}';
 
  		$model = new Model();
  		$model->startTrans();
- 		//var_dump(json_decode($json,true));
+ 		// var_dump(json_decode($json,true)
  		$sourceData = json_decode($json,true);
  		
  		$source=$sourceData['education'];
@@ -87,8 +87,8 @@ class CvController extends Controller
 		$model->commit();
 		$square = new SquareModel();
 		$data = $square->getUserInfo($account);
-		var_dump($data);
-		$this->feedback("true",json_encode($data));
+		// var_dump($data);
+		$this->feedback("true",$data);
 	}
 
 
@@ -111,9 +111,8 @@ class CvController extends Controller
 		    $result['work']=$work;		 
 		    //unset($result['basicInfo']['user']);
 		    //var_dump($result);
-		    $this->feedback("true",json_encode($result));
+		    $this->feedback("true",$result);
 		}
-		exit(json_encode($back));
 	}
 
 	//数据反馈（公共方法）

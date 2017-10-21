@@ -1,0 +1,56 @@
+[ 2017-10-21T22:26:09+08:00 ] 192.168.0.108 /jobBook/index.php/person/myMessage/account/888
+ERR: 1146:Table 'jobbook.question' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `question`
+
+[ 2017-10-21T22:26:23+08:00 ] 192.168.0.108 /jobBook/index.php/person/myMessage/account/888
+ERR: 1146:Table 'jobbook.question' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `question`
+
+[ 2017-10-21T22:26:30+08:00 ] 192.168.0.108 /jobBook/index.php/person/myMessage/account/888
+ERR: 1146:Table 'jobbook.question' doesn't exist
+ [ SQL语句 ] : SHOW COLUMNS FROM `question`
+
+[ 2017-10-21T22:45:43+08:00 ] 192.168.0.108 /jobBook/index.php/cv/postCV/account/888?{%22city%22:%22aaa%22,%22disabilitylevel%22:%22%E4%B8%80%E7%BA%A7%22,%22disabilitytype%22:%22%E8%A7%86%E5%8A%9B%E6%AE%8B%E7%96%BE%22,%22education%22:[{%22admissiondate%22:%222017-01%22,%22graduationdate%22:%222017-04%22,%22major%22:%22%22,%22school%22:%22qawdas%22}],%22email%22:%22aaa%22,%22expectlocation%22:%22aaa%22,%22expectposition%22:%22aaa%22,%22expectsalary%22:%22aaa%22,%22havedisabilitycard%22:%22%E6%9C%89%22,%22head%22:%22http://192.168.199.195/jobBook/Public/src/head/2017-10-04/888-16-31-00.jpeg%22,%22name%22:%22raymond%22,%22sex%22:%22%E7%94%B7%22,%22status%22:%22qwedrrr%22,%22telephone%22:%22aaa%22,%22work%22:[{%22company%22:%22aaa%22,%22dimissiondate%22:%222016-09%22,%22inaugurationdate%22:%222016-09%22,%22position%22:%22aaa%22}],%22workposition%22:%22cto%22,%22workspace%22:%22tencent%22}
+ERR: 1048:Column 'sex' cannot be null
+ [ SQL语句 ] : INSERT INTO `personality` (`user`,`sex`,`email`,`city`,`telephone`,`disabilityType`,`disabilityLevel`,`haveDisabilityCard`,`expectSalary`,`expectPosition`,`expectLocation`,`status`) VALUES ('888',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL)
+
+[ 2017-10-21T22:47:31+08:00 ] 192.168.0.108 /jobBook/index.php/cv/postCV/account/888?{%22city%22:%22aaa%22,%22disabilitylevel%22:%22%E4%B8%80%E7%BA%A7%22,%22disabilitytype%22:%22%E8%A7%86%E5%8A%9B%E6%AE%8B%E7%96%BE%22,%22education%22:[{%22admissiondate%22:%222017-01%22,%22graduationdate%22:%222017-04%22,%22major%22:%22%22,%22school%22:%22qawdas%22}],%22email%22:%22aaa%22,%22expectlocation%22:%22aaa%22,%22expectposition%22:%22aaa%22,%22expectsalary%22:%22aaa%22,%22havedisabilitycard%22:%22%E6%9C%89%22,%22head%22:%22http://192.168.199.195/jobBook/Public/src/head/2017-10-04/888-16-31-00.jpeg%22,%22name%22:%22raymond%22,%22sex%22:%22%E7%94%B7%22,%22status%22:%22qwedrrr%22,%22telephone%22:%22aaa%22,%22work%22:[{%22company%22:%22aaa%22,%22dimissiondate%22:%222016-09%22,%22inaugurationdate%22:%222016-09%22,%22position%22:%22aaa%22}],%22workposition%22:%22cto%22,%22workspace%22:%22tencent%22}
+ERR: 1048:Column 'sex' cannot be null
+ [ SQL语句 ] : INSERT INTO `personality` (`user`,`sex`,`email`,`city`,`telephone`,`disabilityType`,`disabilityLevel`,`haveDisabilityCard`,`expectSalary`,`expectPosition`,`expectLocation`,`status`) VALUES ('888',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL)
+
+[ 2017-10-21T22:49:48+08:00 ] 192.168.0.108 /jobBook/index.php/cv/postCV/account/888?{%22city%22:%22aaa%22,%22disabilitylevel%22:%22%E4%B8%80%E7%BA%A7%22,%22disabilitytype%22:%22%E8%A7%86%E5%8A%9B%E6%AE%8B%E7%96%BE%22,%22education%22:[{%22admissiondate%22:%222017-01%22,%22graduationdate%22:%222017-04%22,%22major%22:%22%22,%22school%22:%22qawdas%22}],%22email%22:%22aaa%22,%22expectlocation%22:%22aaa%22,%22expectposition%22:%22aaa%22,%22expectsalary%22:%22aaa%22,%22havedisabilitycard%22:%22%E6%9C%89%22,%22head%22:%22http://192.168.199.195/jobBook/Public/src/head/2017-10-04/888-16-31-00.jpeg%22,%22name%22:%22raymond%22,%22sex%22:%22%E7%94%B7%22,%22status%22:%22qwedrrr%22,%22telephone%22:%22aaa%22,%22work%22:[{%22company%22:%22aaa%22,%22dimissiondate%22:%222016-09%22,%22inaugurationdate%22:%222016-09%22,%22position%22:%22aaa%22}],%22workposition%22:%22cto%22,%22workspace%22:%22tencent%22}
+ERR: 1048:Column 'sex' cannot be null
+ [ SQL语句 ] : INSERT INTO `personality` (`user`,`sex`,`email`,`city`,`telephone`,`disabilityType`,`disabilityLevel`,`haveDisabilityCard`,`expectSalary`,`expectPosition`,`expectLocation`,`status`) VALUES ('888',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL)
+
+[ 2017-10-21T22:52:42+08:00 ] 192.168.0.108 /jobBook/index.php/cv/postCV/account/888?{%22city%22:%22aaa%22,%22disabilitylevel%22:%22%E4%B8%80%E7%BA%A7%22,%22disabilitytype%22:%22%E8%A7%86%E5%8A%9B%E6%AE%8B%E7%96%BE%22,%22education%22:[{%22admissiondate%22:%222017-01%22,%22graduationdate%22:%222017-04%22,%22major%22:%22%22,%22school%22:%22qawdas%22}],%22email%22:%22aaa%22,%22expectlocation%22:%22aaa%22,%22expectposition%22:%22aaa%22,%22expectsalary%22:%22aaa%22,%22havedisabilitycard%22:%22%E6%9C%89%22,%22head%22:%22http://192.168.199.195/jobBook/Public/src/head/2017-10-04/888-16-31-00.jpeg%22,%22name%22:%22raymond%22,%22sex%22:%22%E7%94%B7%22,%22status%22:%22qwedrrr%22,%22telephone%22:%22aaa%22,%22work%22:[{%22company%22:%22aaa%22,%22dimissiondate%22:%222016-09%22,%22inaugurationdate%22:%222016-09%22,%22position%22:%22aaa%22}],%22workposition%22:%22cto%22,%22workspace%22:%22tencent%22}
+ERR: 1048:Column 'sex' cannot be null
+ [ SQL语句 ] : INSERT INTO `personality` (`user`,`sex`,`email`,`city`,`telephone`,`disabilityType`,`disabilityLevel`,`haveDisabilityCard`,`expectSalary`,`expectPosition`,`expectLocation`,`status`) VALUES ('888',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL)
+
+[ 2017-10-21T22:53:15+08:00 ] 192.168.0.108 /jobBook/index.php/cv/postCV/account/888?{%22city%22:%22aaa%22,%22disabilitylevel%22:%22%E4%B8%80%E7%BA%A7%22,%22disabilitytype%22:%22%E8%A7%86%E5%8A%9B%E6%AE%8B%E7%96%BE%22,%22education%22:[{%22admissiondate%22:%222017-01%22,%22graduationdate%22:%222017-04%22,%22major%22:%22%22,%22school%22:%22qawdas%22}],%22email%22:%22aaa%22,%22expectlocation%22:%22aaa%22,%22expectposition%22:%22aaa%22,%22expectsalary%22:%22aaa%22,%22havedisabilitycard%22:%22%E6%9C%89%22,%22head%22:%22http://192.168.199.195/jobBook/Public/src/head/2017-10-04/888-16-31-00.jpeg%22,%22name%22:%22raymond%22,%22sex%22:%22%E7%94%B7%22,%22status%22:%22qwedrrr%22,%22telephone%22:%22aaa%22,%22work%22:[{%22company%22:%22aaa%22,%22dimissiondate%22:%222016-09%22,%22inaugurationdate%22:%222016-09%22,%22position%22:%22aaa%22}],%22workposition%22:%22cto%22,%22workspace%22:%22tencent%22}
+ERR: 1048:Column 'sex' cannot be null
+ [ SQL语句 ] : INSERT INTO `personality` (`user`,`sex`,`email`,`city`,`telephone`,`disabilityType`,`disabilityLevel`,`haveDisabilityCard`,`expectSalary`,`expectPosition`,`expectLocation`,`status`) VALUES ('888',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL)
+
+[ 2017-10-21T22:55:22+08:00 ] 192.168.0.108 /jobBook/index.php/cv/postCV/account/888?{%22city%22:%22aaa%22,%22disabilitylevel%22:%22%E4%B8%80%E7%BA%A7%22,%22disabilitytype%22:%22%E8%A7%86%E5%8A%9B%E6%AE%8B%E7%96%BE%22,%22education%22:[{%22admissiondate%22:%222017-01%22,%22graduationdate%22:%222017-04%22,%22major%22:%22%22,%22school%22:%22qawdas%22}],%22email%22:%22aaa%22,%22expectlocation%22:%22aaa%22,%22expectposition%22:%22aaa%22,%22expectsalary%22:%22aaa%22,%22havedisabilitycard%22:%22%E6%9C%89%22,%22head%22:%22http://192.168.199.195/jobBook/Public/src/head/2017-10-04/888-16-31-00.jpeg%22,%22name%22:%22raymond%22,%22sex%22:%22%E7%94%B7%22,%22status%22:%22qwedrrr%22,%22telephone%22:%22aaa%22,%22work%22:[{%22company%22:%22aaa%22,%22dimissiondate%22:%222016-09%22,%22inaugurationdate%22:%222016-09%22,%22position%22:%22aaa%22}],%22workposition%22:%22cto%22,%22workspace%22:%22tencent%22}
+ERR: 1048:Column 'sex' cannot be null
+ [ SQL语句 ] : INSERT INTO `personality` (`user`,`sex`,`email`,`city`,`telephone`,`disabilityType`,`disabilityLevel`,`haveDisabilityCard`,`expectSalary`,`expectPosition`,`expectLocation`,`status`) VALUES ('888',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL)
+
+[ 2017-10-21T22:58:06+08:00 ] 192.168.0.108 /jobBook/index.php/cv/postCV/account/888?{%22city%22:%22aaa%22,%22disabilitylevel%22:%22%E4%B8%80%E7%BA%A7%22,%22disabilitytype%22:%22%E8%A7%86%E5%8A%9B%E6%AE%8B%E7%96%BE%22,%22education%22:[{%22admissiondate%22:%222017-01%22,%22graduationdate%22:%222017-04%22,%22major%22:%22%22,%22school%22:%22qawdas%22}],%22email%22:%22aaa%22,%22expectlocation%22:%22aaa%22,%22expectposition%22:%22aaa%22,%22expectsalary%22:%22aaa%22,%22havedisabilitycard%22:%22%E6%9C%89%22,%22head%22:%22http://192.168.199.195/jobBook/Public/src/head/2017-10-04/888-16-31-00.jpeg%22,%22name%22:%22raymond%22,%22sex%22:%22%E7%94%B7%22,%22status%22:%22qwedrrr%22,%22telephone%22:%22aaa%22,%22work%22:[{%22company%22:%22aaa%22,%22dimissiondate%22:%222016-09%22,%22inaugurationdate%22:%222016-09%22,%22position%22:%22aaa%22}],%22workposition%22:%22cto%22,%22workspace%22:%22tencent%22}
+ERR: 1048:Column 'sex' cannot be null
+ [ SQL语句 ] : INSERT INTO `personality` (`user`,`sex`,`email`,`city`,`telephone`,`disabilityType`,`disabilityLevel`,`haveDisabilityCard`,`expectSalary`,`expectPosition`,`expectLocation`,`status`) VALUES ('888',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL)
+
+[ 2017-10-21T22:58:19+08:00 ] 192.168.0.108 /jobBook/index.php/cv/postCV/account/888
+ERR: 1048:Column 'sex' cannot be null
+ [ SQL语句 ] : INSERT INTO `personality` (`user`,`sex`,`email`,`city`,`telephone`,`disabilityType`,`disabilityLevel`,`haveDisabilityCard`,`expectSalary`,`expectPosition`,`expectLocation`,`status`) VALUES ('888',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL)
+
+[ 2017-10-21T22:58:38+08:00 ] 192.168.0.108 /jobBook/index.php/cv/postCV/account/888
+ERR: 1048:Column 'sex' cannot be null
+ [ SQL语句 ] : INSERT INTO `personality` (`user`,`sex`,`email`,`city`,`telephone`,`disabilityType`,`disabilityLevel`,`haveDisabilityCard`,`expectSalary`,`expectPosition`,`expectLocation`,`status`) VALUES ('888',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL)
+
+[ 2017-10-21T22:58:59+08:00 ] 192.168.0.108 /jobBook/index.php/cv/postCV/account/888
+ERR: 1048:Column 'sex' cannot be null
+ [ SQL语句 ] : INSERT INTO `personality` (`user`,`sex`,`email`,`city`,`telephone`,`disabilityType`,`disabilityLevel`,`haveDisabilityCard`,`expectSalary`,`expectPosition`,`expectLocation`,`status`) VALUES ('888',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL)
+
+[ 2017-10-21T22:59:25+08:00 ] 192.168.0.108 /jobBook/index.php/cv/postCV/account/888
+ERR: 1048:Column 'sex' cannot be null
+ [ SQL语句 ] : INSERT INTO `personality` (`user`,`sex`,`email`,`city`,`telephone`,`disabilityType`,`disabilityLevel`,`haveDisabilityCard`,`expectSalary`,`expectPosition`,`expectLocation`,`status`) VALUES ('888',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL)
+

@@ -8,7 +8,7 @@ class FocusModel extends Model
 {
 	// public function getQuestions($account){
 	// 	$where['author']=$account;
-	// 	$data = M('question')->field('content')->where($where)->select();
+	// 	$data = M('square')->field('content')->where($where)->select();
 	// 	return $data;
 	// }
 
@@ -35,18 +35,18 @@ class FocusModel extends Model
 /*查看点赞列单*/
 	public function getLikes($account){
 		$where['author']=$account;
-		$q_ids = M('question')->where($where)->field('q_id')->select();
+		$s_ids = M('square')->where($where)->field('s_id')->select();
 		$result = array();
-		for ($i=0; $i < count($q_ids); $i++) { 
-			$check['q_id']=$q_ids[$i]['q_id'];
+		for ($i=0; $i < count($s_ids); $i++) { 
+			$check['s_id']=$s_ids[$i]['s_id'];
 			$temp = M('likes')->where($check)->select();
 			$result = array_merge($result,$temp);
 		}
 		for ($i=0; $i < count($result); $i++) {
 			$result[$i]['time']=$result[$i]['liketime'];
 			unset($result[$i]['liketime']);
-			$result[$i]['id']=$result[$i]['q_id'];
-			unset($result[$i]['q_id']);
+			$result[$i]['id']=$result[$i]['s_id'];
+			unset($result[$i]['s_id']);
 			$result[$i]['type']=2;
 			unset($result[$i]['account']);
 		}
@@ -56,12 +56,12 @@ class FocusModel extends Model
 /*查看评论列单*/
 	public function getComments($account){
 		$where['account']=$account;
-		$data = M()->table(array('comment'=>'c','question'=>'q'))->where(array('c.q_id=q.q_id','author='.$account))->limit(0,10)->field('c.q_id,ask_time')->select();
+		$data = M()->table(array('comment'=>'c','square'=>'s'))->where(array('c.s_id=s.s_id','author='.$account))->limit(0,10)->field('c.s_id,ask_time')->select();
 		for ($i=0; $i < count($data); $i++) {			
 			$data[$i]['time']=$data[$i]['ask_time'];
 			unset($data[$i]['ask_time']);
-			$data[$i]['id']=$data[$i]['q_id'];
-			unset($data[$i]['q_id']);
+			$data[$i]['id']=$data[$i]['s_id'];
+			unset($data[$i]['s_id']);
 			$data[$i]['type']=3;
 		}
 		return $data;
