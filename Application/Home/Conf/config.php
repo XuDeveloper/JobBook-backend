@@ -12,4 +12,16 @@ return array(
     //'MAIL_PORT' =>'465',//smtp服务器的名称
     //'MAIL_SECURE' =>'ssl',//smtp服务器的名称
     'server_address'=>gethostbyname($_SERVER['SERVER_NAME']),
+    'SUCCESS_CODE'=>000,
+    'SUCCESS_WORD'=>'True',
+    'NETWORK_ERROR_CODE'=>101,
+    'NETWORK_ERROR_WORD'=>'网络错误，请检查您的网络状态!',
+    'LOGIN_ERROR_CODE'=>102,
+    'LOGIN_ERROR_WORD'=>'账号或密码错误，请重试!',
+    'LOGIN_FIRST_ERROR_CODE'=>103,
+    'LOGIN_FIRST_ERROR_WORD'=>'请先登录!',
+    'ARTICLE_LIKE_ERROR_CODE'=>104,
+    'ARTICLE_LIKE_ERROR_WORD'=>'文章收藏失败，请重试!',
+    'ARTICLE_UNLIKE_ERROR_CODE'=>105,
+    'ARTICLE_UNLIKE_ERROR_WORD'=>'文章取消收藏失败，请重试!',
 );

@@ -1,6 +1,7 @@
 <?php
 namespace Home\Controller;
 use Think\Controller;
+
 /**
 * 干货类
 */
@@ -12,57 +13,72 @@ class ArticleController extends Controller
 		//$json='{"article_id":"2"}';
 		//$json=file_get_contents('php://input');
 		//$sourceData=json_decode($json,true);
+		try {
+			$where['article_id']=$a_id;
+			$data=M('article')->where($where)->find();	
+			$data['comments']=array();		
 
-		$where['article_id']=$a_id;
-		$data=M('article')->where($where)->find();	
-		$data['comments']=array();		
-
-        //修改阅读量
-        $update['readingquantity']=$data['readingquantity']+1;        
-        $newData=M('article')->where($where)->save($update);
+        	//修改阅读量
+        	$update['readingquantity']=$data['readingquantity']+1;        
+        	$newData=M('article')->where($where)->save($update);
         
-        //内容...字符串封装
-        $data['content']=htmlspecialchars($data['content']);
+        	//内容...字符串封装
+        	$data['content']=htmlspecialchars($data['content']);
 
-        //检查是否收藏
-        $check['user']=$account;
-		$myLike = M('likearticle')->where($check)->getField('article_id',true);
-		if (in_array($data['article_id'],$myLike)) {
-			$data['ifLike']=1;
-		}else{
-			$data['ifLike']=0;
-		}
+        	//检查是否收藏
+        	$check['user']=$account;
+			$myLike = M('likearticle')->where($check)->getField('article_id',true);
+			if (in_array($data['article_id'],$myLike)) {
+				$data['ifLike']=1;
+			}else{
+				$data['ifLike']=0;
+			}
+		} catch(\Exception $e) {
+			$this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), '');
+		}		
         //var_dump($data);
-        $back['response']=$data;
-        $back['status']="true";
-        exit(json_encode($back));
+        $this->feedback(C('SUCCESS_CODE'), C('SUCCESS_WORD'), $data);
+	}
+
+	public function test() {
+		try {
+			$data=M('123')->where($where)->find();	
+		} catch(\Exception $e) {
+			echo $e->getMessage();
+		}
+		// $back['data']='';
+		// $back['message']=C('LOGIN_FIRST_ERROR_WORD');
+		// $back['code']=C('LOGIN_FIRST_ERROR_CODE');
+		// exit(json_encode($back));
 	}
 
 	public function allArticle($type=0,$index=0){
 		// $index=file_get_contents('php://input');
 		//$index=4;
-		if ($type==0) {
-			$articles=M('article')->limit($index,10)->order('date desc')->select();		    
-		}else{
-			$where['type']=$type;
-			$articles=M('article')->limit($index,10)->where($where)->order('date desc')->select();
-		}
+		try {
+			if ($type==0) {
+				$articles=M('article')->limit($index,10)->order('date desc')->select();		    
+			}else{
+				$where['type']=$type;
+				$articles=M('article')->limit($index,10)->where($where)->order('date desc')->select();
+			}
 
-		for ($i=0; $i < count($articles); $i++) {
-			$articles[$i]['content']=htmlspecialchars($articles[$i]['content']);
-			// $articles[$i]['content']=($articles[$i]['content']);
-			$articles[$i]['comments']=array();
-		}
+			for ($i=0; $i < count($articles); $i++) {
+				$articles[$i]['content']=htmlspecialchars($articles[$i]['content']);
+				// $articles[$i]['content']=($articles[$i]['content']);
+				$articles[$i]['comments']=array();
+			}
+           
+		} catch(\Exception $e) {
+			$this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), '');
+		}	
 
 		// $check['user']=$account;
 		// $myLike = M('likearticle')->where($check)->getField('article_id',true);
 		
 		// $articles = $this->ifLike($articles,$myLike);
 		// var_dump($articles);
-		$back['response']=$articles;
-		$back['status']="true";
-		//echo json_encode(htmlspecialchars($articles[0]['content']));
-		exit(json_encode($back));
+		$this->feedback(C('SUCCESS_CODE'), C('SUCCESS_WORD'), $articles);
 		// var_dump(json_encode($back));
 	}
 
@@ -84,42 +100,44 @@ class ArticleController extends Controller
 
 		// $article_id=$sourceData['article_id'];
 		// $user=$sourceData['account'];
-		if($account==""){
-			$back['response']="please login first!";
-			$back['status']="false";
-			exit(json_encode($back));
-		}
-		$data=array(
-			'user'=>$account,
-			'article_id'=>$a_id,
+		try {
+			if($account==""){
+				$this->feedback(C('LOGIN_FIRST_ERROR_CODE'), C('LOGIN_FIRST_ERROR_WORD'), '');
+			}
+			$data=array(
+				'user'=>$account,
+				'article_id'=>$a_id,
 			);
-		$result=M('likearticle')->add($data);
-		if ($result!=0) {
-			$back['response']="";
-			$back['status']="true";
-		}else{
-			$back['response']="like failed";
-			$back['status']="false";
-		}
-        exit(json_encode($back));
+			$result=M('likearticle')->add($data);
+			if ($result!=0) {
+				$this->feedback(C('SUCCESS_CODE'), C('SUCCESS_WORD'), '');
+			}else{
+				$this->feedback(C('ARTICLE_LIKE_ERROR_CODE'), C('ARTICLE_LIKE_ERROR_WORD'), '');
+			}
+		} catch(\Exception $e) {
+			$this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), '');
+		}		
 	}
 
 	public function unlikesArticle($account="",$a_id){
-		if($account==""){
-			$back['response']="please login first!";
-			$back['status']="false";
-			exit(json_encode($back));
+		try {
+			if($account==""){
+				$this->feedback(C('LOGIN_FIRST_ERROR_CODE'), C('LOGIN_FIRST_ERROR_WORD'), '');
+			}
+			$data=array(
+				'user'=>$account,
+				'article_id'=>$a_id,
+			);
+			$result=M('likearticle')->where($data)->delete();
+			if ($result!=0) {
+				$this->feedback(C('SUCCESS_CODE'), C('SUCCESS_WORD'), '');
+			}else{
+				$this->feedback(C('ARTICLE_UNLIKE_ERROR_CODE'), C('ARTICLE_UNLIKE_ERROR_WORD'), '');
+			}
+		} catch(\Exception $e) {
+			$this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), '');
 		}
-		$data=array(
-			'user'=>$account,
-			'article_id'=>$a_id,
-		);
-		$result=M('likearticle')->where($data)->delete();
-		if ($result!=0) {
-			$this->feedback("true","");
-		}else{
-			$this->feedback("false","unlike failed");
-		}
+		
 	}
 
 	/*添加文章评论*/
@@ -143,9 +161,10 @@ class ArticleController extends Controller
 	}
 
 	//数据反馈（公共方法）
-	public function feedback($status,$response){
-		$back['status']=$status;
-		$back['response']=$response;
+	public function feedback($code,$message,$data){
+		$back['code']=$code;
+		$back['message']=$message;
+		$back['data']=$data;
 		exit(json_encode($back));
 	}
 }
