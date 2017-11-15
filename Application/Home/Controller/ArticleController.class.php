@@ -1,170 +1,177 @@
 <?php
 namespace Home\Controller;
+
 use Think\Controller;
 
 /**
-* 干货类
-*/
+ * 干货类
+ */
 class ArticleController extends Controller
 {
-	
-	public function getArticle($a_id="",$account="")
-	{
-		//$json='{"article_id":"2"}';
-		//$json=file_get_contents('php://input');
-		//$sourceData=json_decode($json,true);
-		try {
-			$where['article_id']=$a_id;
-			$data=M('article')->where($where)->find();	
-			$data['comments']=array();		
 
-        	//修改阅读量
-        	$update['readingquantity']=$data['readingquantity']+1;        
-        	$newData=M('article')->where($where)->save($update);
-        
-        	//内容...字符串封装
-        	$data['content']=htmlspecialchars($data['content']);
+    public function getArticle($a_id = "", $account = "")
+    {
+        //$json='{"article_id":"2"}';
+        //$json=file_get_contents('php://input');
+        //$sourceData=json_decode($json,true);
+        try {
+            $where['article_id'] = $a_id;
+            $data                = M('article')->where($where)->find();
+            $data['comments']    = array();
 
-        	//检查是否收藏
-        	$check['user']=$account;
-			$myLike = M('likearticle')->where($check)->getField('article_id',true);
-			if (in_array($data['article_id'],$myLike)) {
-				$data['ifLike']=1;
-			}else{
-				$data['ifLike']=0;
-			}
-		} catch(\Exception $e) {
-			$this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), '');
-		}		
+            //修改阅读量
+            $update['readingquantity'] = $data['readingquantity'] + 1;
+            $newData                   = M('article')->where($where)->save($update);
+
+            //内容...字符串封装
+            $data['content'] = htmlspecialchars($data['content']);
+
+            //检查是否收藏
+            $check['user'] = $account;
+            $myLike        = M('likearticle')->where($check)->getField('article_id', true);
+            if (in_array($data['article_id'], $myLike)) {
+                $data['ifLike'] = 1;
+            } else {
+                $data['ifLike'] = 0;
+            }
+        } catch (\Exception $e) {
+            $this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), '');
+        }
         //var_dump($data);
-        $this->feedback(C('SUCCESS_CODE'), C('SUCCESS_WORD'), $data);
-	}
+        $this->feedback(C('SUCCESS_CODE'), '', $data);
+    }
 
-	public function test() {
-		try {
-			$data=M('123')->where($where)->find();	
-		} catch(\Exception $e) {
-			echo $e->getMessage();
-		}
-		// $back['data']='';
-		// $back['message']=C('LOGIN_FIRST_ERROR_WORD');
-		// $back['code']=C('LOGIN_FIRST_ERROR_CODE');
-		// exit(json_encode($back));
-	}
+    public function test()
+    {
+        try {
+            M('like1article')->add($data);
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
+        // $back['data']='';
+        // $back['message']=C('LOGIN_FIRST_ERROR_WORD');
+        // $back['code']=C('LOGIN_FIRST_ERROR_CODE');
+        // exit(json_encode($back));
+    }
 
-	public function allArticle($type=0,$index=0){
-		// $index=file_get_contents('php://input');
-		//$index=4;
-		try {
-			if ($type==0) {
-				$articles=M('article')->limit($index,10)->order('date desc')->select();		    
-			}else{
-				$where['type']=$type;
-				$articles=M('article')->limit($index,10)->where($where)->order('date desc')->select();
-			}
+    public function allArticle($type = 0, $index = 0)
+    {
+        // $index=file_get_contents('php://input');
+        //$index=4;
+        try {
+            if ($type == 0) {
+                $articles = M('article')->limit($index, 10)->order('date desc')->select();
+            } else {
+                $where['type'] = $type;
+                $articles      = M('article')->limit($index, 10)->where($where)->order('date desc')->select();
+            }
 
-			for ($i=0; $i < count($articles); $i++) {
-				$articles[$i]['content']=htmlspecialchars($articles[$i]['content']);
-				// $articles[$i]['content']=($articles[$i]['content']);
-				$articles[$i]['comments']=array();
-			}
-           
-		} catch(\Exception $e) {
-			$this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), '');
-		}	
+            for ($i = 0; $i < count($articles); $i++) {
+                $articles[$i]['content'] = htmlspecialchars($articles[$i]['content']);
+                // $articles[$i]['content']=($articles[$i]['content']);
+                $articles[$i]['comments'] = array();
+            }
 
-		// $check['user']=$account;
-		// $myLike = M('likearticle')->where($check)->getField('article_id',true);
-		
-		// $articles = $this->ifLike($articles,$myLike);
-		// var_dump($articles);
-		$this->feedback(C('SUCCESS_CODE'), C('SUCCESS_WORD'), $articles);
-		// var_dump(json_encode($back));
-	}
+        } catch (\Exception $e) {
+            $this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), '');
+        }
 
-	/*检查每一个文章是否有收藏*/
-	public function ifLike($allArticle,$myLike){
-		for ($i=0; $i < count($allArticle); $i++) { 
-			if (in_array($allArticle[$i]['article_id'],$myLike)) {
-				$allArticle[$i]['ifLike']=1;
-			}else{
-				$allArticle[$i]['ifLike']=0;
-			}
-		}
-		return $allArticle;
-	}
-	
-	public function likesArticle($account="",$a_id){
-		// $json=file_get_contents('php://input');
-		// $sourceData=json_decode($json,true);
+        // $check['user']=$account;
+        // $myLike = M('likearticle')->where($check)->getField('article_id',true);
 
-		// $article_id=$sourceData['article_id'];
-		// $user=$sourceData['account'];
-		try {
-			if($account==""){
-				$this->feedback(C('LOGIN_FIRST_ERROR_CODE'), C('LOGIN_FIRST_ERROR_WORD'), '');
-			}
-			$data=array(
-				'user'=>$account,
-				'article_id'=>$a_id,
-			);
-			$result=M('likearticle')->add($data);
-			if ($result!=0) {
-				$this->feedback(C('SUCCESS_CODE'), C('SUCCESS_WORD'), '');
-			}else{
-				$this->feedback(C('ARTICLE_LIKE_ERROR_CODE'), C('ARTICLE_LIKE_ERROR_WORD'), '');
-			}
-		} catch(\Exception $e) {
-			$this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), '');
-		}		
-	}
+        // $articles = $this->ifLike($articles,$myLike);
+        // var_dump($articles);
+        $this->feedback(C('SUCCESS_CODE'), '', $articles);
+        // var_dump(json_encode($back));
+    }
 
-	public function unlikesArticle($account="",$a_id){
-		try {
-			if($account==""){
-				$this->feedback(C('LOGIN_FIRST_ERROR_CODE'), C('LOGIN_FIRST_ERROR_WORD'), '');
-			}
-			$data=array(
-				'user'=>$account,
-				'article_id'=>$a_id,
-			);
-			$result=M('likearticle')->where($data)->delete();
-			if ($result!=0) {
-				$this->feedback(C('SUCCESS_CODE'), C('SUCCESS_WORD'), '');
-			}else{
-				$this->feedback(C('ARTICLE_UNLIKE_ERROR_CODE'), C('ARTICLE_UNLIKE_ERROR_WORD'), '');
-			}
-		} catch(\Exception $e) {
-			$this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), '');
-		}
-		
-	}
+    /*检查每一个文章是否有收藏*/
+    public function ifLike($allArticle, $myLike)
+    {
+        for ($i = 0; $i < count($allArticle); $i++) {
+            if (in_array($allArticle[$i]['article_id'], $myLike)) {
+                $allArticle[$i]['ifLike'] = 1;
+            } else {
+                $allArticle[$i]['ifLike'] = 0;
+            }
+        }
+        return $allArticle;
+    }
 
-	/*添加文章评论*/
-	public function addArticleComment(){
-		$json=file_get_contents('php://input');
-		$sourceData=json_decode($json,true);
+    public function likesArticle($account = "", $a_id)
+    {
+        // $json=file_get_contents('php://input');
+        // $sourceData=json_decode($json,true);
 
-		$ask_time=date('Y-m-d G:i:s');
-		$data=array(
-			'a_id'=>$sourceData['a_id'],
-			'content'=>$sourceData['content'],
-			'ask_time'=>$ask_time,
-			'commenter'=>$sourceData['commenter']['account'],
-		);
-		$result = M('commentArticle')->add($data);
-		if ($result) {
-			$this->feedback("false","unlike failed");
-		}else{
-			$this->feedback("true","");
-		}
-	}
+        // $article_id=$sourceData['article_id'];
+        // $user=$sourceData['account'];
+        try {
+            if ($account == "") {
+                $this->feedback(C('LOGIN_FIRST_ERROR_CODE'), "account is null!", '');
+            }
+            $data = array(
+                'user'       => $account,
+                'article_id' => $a_id,
+            );
+            $result = M('likearticle')->add($data);
+            if ($result != 0) {
+                $this->feedback(C('SUCCESS_CODE'), '', '');
+            } else {
+                $this->feedback(C('ARTICLE_LIKE_ERROR_CODE'), $result, '');
+            }
+        } catch (\Exception $e) {
+            $this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), '');
+        }
+    }
 
-	//数据反馈（公共方法）
-	public function feedback($code,$message,$data){
-		$back['code']=$code;
-		$back['message']=$message;
-		$back['data']=$data;
-		exit(json_encode($back));
-	}
+    public function unlikesArticle($account = "", $a_id)
+    {
+        try {
+            if ($account == "") {
+                $this->feedback(C('LOGIN_FIRST_ERROR_CODE'), "account is null!", '');
+            }
+            $data = array(
+                'user'       => $account,
+                'article_id' => $a_id,
+            );
+            $result = M('likearticle')->where($data)->delete();
+            if ($result != 0) {
+                $this->feedback(C('SUCCESS_CODE'), '', '');
+            } else {
+                $this->feedback(C('ARTICLE_UNLIKE_ERROR_CODE'), $result, '');
+            }
+        } catch (\Exception $e) {
+            $this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), '');
+        }
+
+    }
+
+    /*添加文章评论*/
+    // public function addArticleComment(){
+    //     $json=file_get_contents('php://input');
+    //     $sourceData=json_decode($json,true);
+
+    //     $ask_time=date('Y-m-d G:i:s');
+    //     $data=array(
+    //         'a_id'=>$sourceData['a_id'],
+    //         'content'=>$sourceData['content'],
+    //         'ask_time'=>$ask_time,
+    //         'commenter'=>$sourceData['commenter']['account'],
+    //     );
+    //     $result = M('commentArticle')->add($data);
+    //     if ($result) {
+    //         $this->feedback("false","unlike failed");
+    //     }else{
+    //         $this->feedback("true","");
+    //     }
+    // }
+
+    //数据反馈（公共方法）
+    public function feedback($code, $message, $data)
+    {
+        $back['code']    = $code;
+        $back['message'] = $message;
+        $back['data']    = $data;
+        exit(json_encode($back));
+    }
 }

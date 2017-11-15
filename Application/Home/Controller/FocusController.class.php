@@ -15,14 +15,10 @@ class FocusController extends Controller
 	}
 
 	//数据反馈（公共方法）
-	public function feedback($status,$response){
-		$back['status']=$status;
-		$back['response']=$response;
+	public function feedback($code,$message,$data){
+		$back['code']=$code;
+		$back['message']=$message;
+		$back['data']=$data;
 		exit(json_encode($back));
 	}
 }
-
-
-
-
-?>
