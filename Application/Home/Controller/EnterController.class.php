@@ -16,7 +16,7 @@ class EnterController extends Controller
 		$json = file_get_contents('php://input');
 		$sourceData=json_decode($json,true);
 		if (empty($json)){
-			exit(json_encode("false"));
+            $this->feedback(C('PERSON_REGISTER_ERROR_CODE'), "register data is null!", '');
 		}   
 
         $account=$sourceData['account'];
@@ -43,8 +43,7 @@ class EnterController extends Controller
 		    $insert=M('user')->add($data);
 		    if (!$insert) {
 		    	//注册失败
-                $back['status']="false";
-                $back['response']="Register Error!";                  
+                $this->feedback(C('PERSON_REGISTER_ERROR_CODE'), $insert, '');           
 		    }else{
 		    	//注册成功
 		        $result['account']=$account;
@@ -57,16 +56,13 @@ class EnterController extends Controller
                 $result['follow']=0;
                 $result['fans']=0;
                 $result['moment']=0;
-                $back['status']="true";
-                $back['response']=json_encode($result);
+                $this->feedback(C('SUCCESS_CODE'), 'register success', $result);
 		    }
         }else{
         	//用户已被注册
-            $back['status']="false";
-            $back['response']="Have Registered!";           		    
+            $this->feedback(C('PERSON_REGISTER_ERROR_CODE'), "Have Registered!", '');        		    
         }
-        exit(json_encode($back));
-	}
+    }
 
     public function doLogin(){
     	//$json='{"account":"Xu","password":"125463","telephone":"452109"}';
@@ -96,17 +92,13 @@ class EnterController extends Controller
                     'fans'=>$user->countFans($sourceData['account']),
                     'moment'=>$square->getMoments($sourceData['account']),
                     );
-                $back['status']="true";
-                $back['response']=$result;
+                $this->feedback(C('SUCCESS_CODE'), 'login success', $result); 
             }else{
-                $back['status']="false";
-                $back['response']="Login Error!";
+                $this->feedback(C('PERSON_LOGIN_ERROR_CODE'), "user update error!", '');
             }		
 		}else{
-            $back['status']="false";
-            $back['response']="Login Error!";
+            $this->feedback(C('PERSON_LOGIN_ERROR_CODE'), "can not find user!", '');
 		}
-		exit(json_encode($back));
     }
 
     public function checkLogin($account){
@@ -116,36 +108,35 @@ class EnterController extends Controller
             //最近有登录
             $update['login_time']=date('Y-m-d');
             $result = M('user')->where($where)->save($update);
-            $back['status']="true";
-            $back['response']="can login auto";
+            $this->feedback(C('SUCCESS_CODE'), 'can login auto', ''); 
         }else{
             //最近一周无登录
-            $back['status']="false";
-            $back['response']="no login auto";
+            $this->feedback(C('PERSON_AUTO_LOGIN_ERROR_CODE'), 'no login auto', $result); 
         }
-        exit(json_encode($back));
     }
 
     public function checkforget($account){
     	$check['account']=$account;
     	$result=M('user')->where($check)->select();
     	if (count($result)==0) {
-    		$back['status']="false";
-    		$back['response']="No Registered";
+    		$this->feedback(C('PERSON_REGISTER_ERROR_CODE'), 'no registered', $result); 
     	}else{
-    		$back['status']="true";
-    		$back['response']="";
+    		$this->feedback(C('SUCCESS_CODE'), 'checkforget', ''); 
     	}
-    	exit(json_encode($back));
     }
 
     public function forgetpsw($account,$newpsw){
     	$where['account']=$account;
     	$update['password']=md5($newpsw);
     	$result=M('user')->where($where)->save($update);
-    	$back['status']="true";
-    	$back['response']="";
-    	exit(json_encode($back));
+        $this->feedback(C('SUCCESS_CODE'), 'forgetpsw', ''); 
+    }
+
+    //数据反馈（公共方法）
+    public function feedback($code,$message,$data){
+        $back['code']=$code;
+        $back['message']=$message;
+        $back['data']=$data;
+        exit(json_encode($back));
     }
 }
-?>
