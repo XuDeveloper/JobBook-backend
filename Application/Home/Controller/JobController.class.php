@@ -27,8 +27,9 @@ class JobController extends Controller
             }
             //var_dump($getSearchResult);
             $this->feedback(C('SUCCESS_CODE'), '', $getSearchResult);
+            // $this->feedback(C('PERSON_AUTO_LOGIN_ERROR_CODE'), '', '');
         } catch (\Exception $e) {
-            $this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), '');
+            $this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), null);
         }
     }
 
@@ -49,8 +50,9 @@ class JobController extends Controller
             }
             //var_dump($getSearchResult);
             $this->feedback(C('SUCCESS_CODE'), '', $getSearchResult);
+            // $this->feedback(C('PERSON_AUTO_LOGIN_ERROR_CODE'), '', '');
         } catch (\Exception $e) {
-            $this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), '');
+            $this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), null);
         }
     }
 
@@ -75,7 +77,7 @@ class JobController extends Controller
             //var_dump($result);
             $this->feedback(C('SUCCESS_CODE'), '', $result);
         } catch (\Exception $e) {
-            $this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), '');
+            $this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), null);
         }
     }
 
@@ -97,7 +99,7 @@ class JobController extends Controller
             //var_dump($getSearchResult);
             $this->feedback(C('SUCCESS_CODE'), '', $getSearchResult);
         } catch (\Exception $e) {
-            $this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), '');
+            $this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), null);
         }
     }
 
@@ -111,12 +113,12 @@ class JobController extends Controller
             $result = M('favourite')->add($data);
 
             if ($result) {
-                $this->feedback(C('SUCCESS_CODE'), '', '');
+                $this->feedback(C('SUCCESS_CODE'), '', null);
             } else {
                 $this->feedback(C('JOB_LIKE_ERROR_CODE'), $result, $getSearchResult);
             }
         } catch (\Exception $e) {
-            $this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), '');
+            $this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), null);
         }
 
         //exit(json_encode($back));
@@ -129,12 +131,12 @@ class JobController extends Controller
             $where['job_id'] = $job_id;
             $result          = M('favourite')->where($where)->delete();
             if ($result) {
-                $this->feedback(C('SUCCESS_CODE'), '', '');
+                $this->feedback(C('SUCCESS_CODE'), '', null);
             } else {
                 $this->feedback(C('JOB_UNLIKE_ERROR_CODE'), $result, $getSearchResult);
             }
         } catch (\Exception $e) {
-            $this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), '');
+            $this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), null);
         }
 
         // exit(json_encode($back));
@@ -143,7 +145,7 @@ class JobController extends Controller
     //数据反馈（公共方法）
     public function feedback($code, $message, $data)
     {
-        $back['code']    = $code;
+        $back['code']    = intval($code);
         $back['message'] = $message;
         $back['data']    = $data;
         exit(json_encode($back));
