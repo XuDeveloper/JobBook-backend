@@ -36,7 +36,7 @@ class CvController extends Controller
                 //出现插入数据失败，就把标记flag改成false
                 if ($result === false || $delete1 === false) {
                     $model->rollback();
-                    $this->feedback(C('CV_UPDATE_ERROR_CODE'), "education data update error!", '');
+                    $this->feedback(C('CV_UPDATE_ERROR_CODE'), "education data update error!", null);
                 }
             }
 
@@ -53,7 +53,7 @@ class CvController extends Controller
                 $result = $model->table('work')->add($data);
                 if ($result === false || $delete2 === false) {
                     $model->rollback();
-                    $this->feedback(C('CV_UPDATE_ERROR_CODE'), "work data update error!", '');
+                    $this->feedback(C('CV_UPDATE_ERROR_CODE'), "work data update error!", null);
                 }
             }
 
@@ -75,7 +75,7 @@ class CvController extends Controller
             $result  = $model->table('personality')->add($data);
             if ($result === false || $delete3 === false) {
                 $model->rollback();
-                $this->feedback(C('CV_UPDATE_ERROR_CODE'), "personality data update error!", '');
+                $this->feedback(C('CV_UPDATE_ERROR_CODE'), "personality data update error!", null);
             }
 
             $update['workspace']    = $sourceData['workspace'];
@@ -85,7 +85,7 @@ class CvController extends Controller
             $result                 = $model->table('user')->where($check)->save($update);
             if ($result === false) {
                 $model->rollback();
-                $this->feedback(C('CV_UPDATE_ERROR_CODE'), "user data update error!", '');
+                $this->feedback(C('CV_UPDATE_ERROR_CODE'), "user data update error!", null);
             }
 
             $model->commit();
@@ -95,7 +95,7 @@ class CvController extends Controller
             $this->feedback(C('SUCCESS_CODE'), '', $data);
 
         } catch (\Exception $e) {
-            $this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), '');
+            $this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), null);
         }
     }
 
@@ -109,7 +109,7 @@ class CvController extends Controller
             $check['account'] = $account;
             $attach           = M('user')->where($check)->field('head,username,workspace,workposition')->select();
             if (count($basicInfo[0]) == 0) {
-                $this->feedback(C('CV_GET_ERROR_CODE'), "No CV!", '');
+                $this->feedback(C('CV_GET_ERROR_CODE'), "No CV!", null);
             } else {
                 $result                 = $basicInfo[0];
                 $result['head']         = $attach[0]['head'];
@@ -123,7 +123,7 @@ class CvController extends Controller
                 $this->feedback(C('SUCCESS_CODE'), '', $result);
             }
         } catch (\Exception $e) {
-            $this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), '');
+            $this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), null);
         }
     }
 

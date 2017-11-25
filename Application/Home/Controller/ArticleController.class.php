@@ -34,11 +34,11 @@ class ArticleController extends Controller
             } else {
                 $data['ifLike'] = 0;
             }
+            $this->feedback(C('SUCCESS_CODE'), '', $data);
         } catch (\Exception $e) {
-            $this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), '');
+            $this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), null);
         }
-        //var_dump($data);
-        $this->feedback(C('SUCCESS_CODE'), '', $data);
+        //var_dump($data);      
     }
 
     public function test()
@@ -71,9 +71,10 @@ class ArticleController extends Controller
                 // $articles[$i]['content']=($articles[$i]['content']);
                 $articles[$i]['comments'] = array();
             }
-
+            // $this->feedback(C('PERSON_AUTO_LOGIN_ERROR_CODE'), '', '');
+            $this->feedback(C('SUCCESS_CODE'), '', $articles);
         } catch (\Exception $e) {
-            $this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), '');
+            $this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), null);
         }
 
         // $check['user']=$account;
@@ -81,7 +82,7 @@ class ArticleController extends Controller
 
         // $articles = $this->ifLike($articles,$myLike);
         // var_dump($articles);
-        $this->feedback(C('SUCCESS_CODE'), '', $articles);
+        
         // var_dump(json_encode($back));
     }
 
@@ -107,7 +108,7 @@ class ArticleController extends Controller
         // $user=$sourceData['account'];
         try {
             if ($account == "") {
-                $this->feedback(C('LOGIN_FIRST_ERROR_CODE'), "account is null!", '');
+                $this->feedback(C('LOGIN_FIRST_ERROR_CODE'), "account is null!", null);
             }
             $data = array(
                 'user'       => $account,
@@ -115,12 +116,12 @@ class ArticleController extends Controller
             );
             $result = M('likearticle')->add($data);
             if ($result != 0) {
-                $this->feedback(C('SUCCESS_CODE'), '', '');
+                $this->feedback(C('SUCCESS_CODE'), '', null);
             } else {
-                $this->feedback(C('ARTICLE_LIKE_ERROR_CODE'), $result, '');
+                $this->feedback(C('ARTICLE_LIKE_ERROR_CODE'), $result, null);
             }
         } catch (\Exception $e) {
-            $this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), '');
+            $this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), null);
         }
     }
 
@@ -128,7 +129,7 @@ class ArticleController extends Controller
     {
         try {
             if ($account == "") {
-                $this->feedback(C('LOGIN_FIRST_ERROR_CODE'), "account is null!", '');
+                $this->feedback(C('LOGIN_FIRST_ERROR_CODE'), "account is null!", null);
             }
             $data = array(
                 'user'       => $account,
@@ -138,10 +139,10 @@ class ArticleController extends Controller
             if ($result != 0) {
                 $this->feedback(C('SUCCESS_CODE'), '', '');
             } else {
-                $this->feedback(C('ARTICLE_UNLIKE_ERROR_CODE'), $result, '');
+                $this->feedback(C('ARTICLE_UNLIKE_ERROR_CODE'), $result, null);
             }
         } catch (\Exception $e) {
-            $this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), '');
+            $this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), null);
         }
 
     }
