@@ -37,7 +37,7 @@ class SquareController extends Controller
     }
 
     //获得广场的工作圈
-    public function allSquares($account = "", $index = 0)
+    public function allSquares($index = 0)
     {
         // $index=file_get_contents('php://input');
         try {

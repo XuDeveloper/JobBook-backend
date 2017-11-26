@@ -15,7 +15,7 @@ class CominfoModel extends Model
 	public function getCompanyIcon($companyname){
 		$where['name']=$companyname;
 		$comlogo = M('cominfo')->where($where)->getField('comlogo');
-		return $comlogo;
+		return "http://".C('server_address').$comlogo;
 	}
 }
 
