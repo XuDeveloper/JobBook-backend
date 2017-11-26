@@ -137,7 +137,7 @@ class ArticleController extends Controller
             );
             $result = M('likearticle')->where($data)->delete();
             if ($result != 0) {
-                $this->feedback(C('SUCCESS_CODE'), '', '');
+                $this->feedback(C('SUCCESS_CODE'), '', null);
             } else {
                 $this->feedback(C('ARTICLE_UNLIKE_ERROR_CODE'), $result, null);
             }
