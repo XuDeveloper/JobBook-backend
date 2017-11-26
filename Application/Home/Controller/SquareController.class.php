@@ -29,54 +29,53 @@ class SquareController extends Controller
             if ($square->addSquare($data)) {
                 $this->feedback(C('SUCCESS_CODE'), "", null);
             } else {
-                $this->feedback("false", "Release Failed");
+                $this->feedback(C('SQUARE_RELEASE_ERROR_CODE'), "Release Failed", null);
             }
         } catch (\Exception $e) {
-
+            $this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), null);
         }
-
     }
 
     //获得广场的工作圈
     public function allSquares($account = "", $index = 0)
     {
         // $index=file_get_contents('php://input');
+        try {
+            //$index=4;
+            $square = new SquareModel();
+            $data   = $square->getSquares($index);
+            $likes  = $square->getMyLikes($account);
+            $data   = $this->dealSquare($account, $data, $likes);
 
-        //$index=4;
-        $square = new SquareModel();
-        $data   = $square->getSquares($index);
-        $likes  = $square->getMyLikes($account);
-        $data   = $this->dealSquare($account, $data, $likes);
-
-        // for ($i=0; $i < count($data); $i++) {
-        //     $data[$i]['date']=$this->countTime($data[$i]['date']);
-        //     $data[$i]['commentNum']=(int)$square->countComments($data[$i]['s_id']);
-        //     $data[$i]['likesNum']=(int)$square->countLikes($data[$i]['s_id']);
-        //     $data[$i]['author']=$square->getUserInfo($data[$i]['author']);
-        //     if (in_array($data[$i]['s_id'],$likes)) {
-        //         $data[$i]['ifLike']=1;
-        //     }else{
-        //         $data[$i]['ifLike']=0;
-        //     }
-        // }
-        //var_dump($data);
-        $this->feedback("true", $data);
+            // for ($i=0; $i < count($data); $i++) {
+            //     $data[$i]['date']=$this->countTime($data[$i]['date']);
+            //     $data[$i]['commentNum']=(int)$square->countComments($data[$i]['s_id']);
+            //     $data[$i]['likesNum']=(int)$square->countLikes($data[$i]['s_id']);
+            //     $data[$i]['author']=$square->getUserInfo($data[$i]['author']);
+            //     if (in_array($data[$i]['s_id'],$likes)) {
+            //         $data[$i]['ifLike']=1;
+            //     }else{
+            //         $data[$i]['ifLike']=0;
+            //     }
+            // }
+            //var_dump($data);
+            $this->feedback(C('SUCCESS_CODE'), "", $data);
+        } catch (\Exception $e) {
+            $this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), null);
+        }
     }
 
     //获得关注的工作圈
     public function focusSquare($account = "", $index = 0)
     {
-        // $index=file_get_contents('php://input');
-        //$index=0;
-        if ($account == "") {
-            $this->feedback("false", "please login");
-        } else {
-
+        try {
+            // $index=file_get_contents('php://input');
+            //$index=0;
             $user    = new UserModel();
             $myFocus = $user->getMyFocus($account);
             if (count($myFocus) == 0) {
-                $data = array();
-                $this->feedback("true", $data);
+                // $data = array();
+                $this->feedback(C('SUCCESS_CODE'), "", null);
             } else {
                 $square = new SquareModel();
                 $data   = $square->getFocusSquares($index, $myFocus);
@@ -95,50 +94,60 @@ class SquareController extends Controller
                 //              }
                 //             }
                 //var_dump($data);
-                $this->feedback("true", $data);
+                $this->feedback(C('SUCCESS_CODE'), "", $data);
             }
+        } catch (\Exception $e) {
+            $this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), null);
         }
     }
 
     //获得某条工作圈
     public function getSingleMoment($s_id, $account)
     {
-        $square         = new SquareModel();
-        $data           = $square->getOneMoment($s_id);
-        $data['date']   = $this->countTime($data['date']);
-        $temporary      = $square->getMyLikes($account);
-        $data['author'] = $square->getUserInfo($data['author']);
-        if (in_array($s_id, $temporary)) {
-            $data['ifLike'] = 1;
-        } else {
-            $data['ifLike'] = 0;
+        try {
+            $square         = new SquareModel();
+            $data           = $square->getOneMoment($s_id);
+            $data['date']   = $this->countTime($data['date']);
+            $temporary      = $square->getMyLikes($account);
+            $data['author'] = $square->getUserInfo($data['author']);
+            if (in_array($s_id, $temporary)) {
+                $data['ifLike'] = 1;
+            } else {
+                $data['ifLike'] = 0;
+            }
+            // var_dump($temporary);
+            //var_dump($data);
+            return $data;
+        } catch (\Exception $e) {
+            return null;
         }
-        // var_dump($temporary);
-        //var_dump($data);
-        $this->feedback("true", $data);
     }
 
     //得到某个人的工作圈
     public function getHisSquare($his, $my = "")
     {
-        $square = new SquareModel();
-        $source = $square->getHis($his);
-        $likes  = $square->getMyLikes($my);
+        try {
+            $square = new SquareModel();
+            $source = $square->getHis($his);
+            $likes  = $square->getMyLikes($my);
 
-        // for ($i=0; $i < count($source); $i++) {
-        //      $source[$i]['date']=$this->countTime($source[$i]['date']);
-        //     $source[$i]['commentNum']=(int)$square->countComments($source[$i]['s_id']);
-        //     $source[$i]['likesNum']=(int)$square->countLikes($source[$i]['s_id']);
-        //     $source[$i]['author']=$square->getUserInfo($source[$i]['author']);
-        //     if (in_array($source[$i]['s_id'],$likes)) {
-        //               $source[$i]['ifLike']=1;
-        //           }else{
-        //               $source[$i]['ifLike']=0;
-        //           }
-        // }
-        $data = $this->dealSquare($his, $source, $likes);
-        //var_dump($data);
-        $this->feedback("true", $data);
+            // for ($i=0; $i < count($source); $i++) {
+            //      $source[$i]['date']=$this->countTime($source[$i]['date']);
+            //     $source[$i]['commentNum']=(int)$square->countComments($source[$i]['s_id']);
+            //     $source[$i]['likesNum']=(int)$square->countLikes($source[$i]['s_id']);
+            //     $source[$i]['author']=$square->getUserInfo($source[$i]['author']);
+            //     if (in_array($source[$i]['s_id'],$likes)) {
+            //               $source[$i]['ifLike']=1;
+            //           }else{
+            //               $source[$i]['ifLike']=0;
+            //           }
+            // }
+            $data = $this->dealSquare($his, $source, $likes);
+            //var_dump($data);
+            $this->feedback(C('SUCCESS_CODE'), "", $data);
+        } catch (\Exception $e) {
+            $this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), null);
+        }
     }
 
     //处理工作圈
@@ -184,62 +193,72 @@ class SquareController extends Controller
     //得到某个工作圈的评论
     public function getComments($s_id, $index = 0)
     {
-        // $index=file_get_contents('php://input');
-        //$index=0;
-        $square   = new SquareModel();
-        $comments = $square->gainComments($s_id, $index);
+        try {
+            $square   = new SquareModel();
+            $comments = $square->gainComments($s_id, $index);
 
-        for ($i = 0; $i < count($comments); $i++) {
-            $comments[$i]['ask_time'] = $this->countTime($comments[$i]['ask_time']);
-            $comments[$i]['applier']  = $square->getUserInfo($comments[$i]['applier']);
+            for ($i = 0; $i < count($comments); $i++) {
+                $comments[$i]['ask_time'] = $this->countTime($comments[$i]['ask_time']);
+                $comments[$i]['applier']  = $square->getUserInfo($comments[$i]['applier']);
+            }
+            // var_dump($comments);
+            $this->feedback(C('SUCCESS_CODE'), "", $comments);
+        } catch (\Exception $e) {
+            $this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), null);
         }
-        // var_dump($comments);
-        $this->feedback("true", $comments);
     }
 
     //添加评论
     public function comment()
     {
-        $json = file_get_contents('php://input');
-        //$json='{"applier":{"account":"888","favourite":[],"password":"0a113ef6b61820daa5611c870ed8d5ee","telephone":"","textCVs":[],"userName":"Raymond","videoCVs":[]},"bad":0,"comment_id":0,"content":"qishou111","good":0,"s_id":2}';
-        $data['words'] = $json;
-        M('temporary')->add($data);
-        $sourceData = json_decode($json, true);
+        try {
+            $json = file_get_contents('php://input');
+            //$json='{"applier":{"account":"888","favourite":[],"password":"0a113ef6b61820daa5611c870ed8d5ee","telephone":"","textCVs":[],"userName":"Raymond","videoCVs":[]},"bad":0,"comment_id":0,"content":"qishou111","good":0,"s_id":2}';
+            $data['words'] = $json;
+            M('temporary')->add($data);
+            $sourceData = json_decode($json, true);
 
-        $ask_time = date('Y-m-d G:i:s');
-        $data     = array(
-            's_id'     => $sourceData['s_id'],
-            'content'  => $sourceData['content'],
-            'ask_time' => $ask_time,
-            'applier'  => $sourceData['applier']['account'],
-        );
+            $ask_time = date('Y-m-d G:i:s');
+            $data     = array(
+                's_id'     => $sourceData['s_id'],
+                'content'  => $sourceData['content'],
+                'ask_time' => $ask_time,
+                'applier'  => $sourceData['applier']['account'],
+            );
 
-        $square = new SquareModel();
-        if ($square->addComment($data)) {
-            $this->feedback("true", $this->getSingleMoment($data['s_id'], $data['applier']));
-        } else {
-            $this->feedback("false", "fail to comment");
+            $square = new SquareModel();
+            if ($square->addComment($data)) {
+                $this->feedback(C('SUCCESS_CODE'), "", $this->getSingleMoment($data['s_id'], $data['applier']));
+            } else {
+                $this->feedback(C('SQUARE_COMMENT_ERROR_CODE'), "fail to comment", null);
+            }
+        } catch (\Exception $e) {
+            $this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), null);
         }
     }
 
     //点赞工作圈
     public function likeSquare($s_id, $account)
     {
-        $square = new SquareModel();
-        $check  = $square->checkLikes($account, $s_id);
-        if (count($check) == 0) {
-            $data = array(
-                'account' => $account,
-                's_id'    => $s_id,
-            );
-            if ($square->addLikes($data)) {
-                $this->sendMessage($account, $s_id);
-                $this->feedback("true", $this->getSingleMoment($s_id, $account));
+        try {
+            $square = new SquareModel();
+            $check  = $square->checkLikes($account, $s_id);
+            if (count($check) == 0) {
+                $data = array(
+                    'account' => $account,
+                    's_id'    => $s_id,
+                );
+                if ($square->addLikes($data)) {
+                    $this->sendMessage($account, $s_id);
+                    $this->feedback(C('SUCCESS_CODE'), "", $this->getSingleMoment($s_id, $account));
+                } else {
+                    $this->feedback(C('SQUARE_LIKE_ERROR_CODE'), "fail to likes", null);
+                }
             } else {
-                $this->feedback("false", "fail to likes");
+                $this->feedback(C('SQUARE_HAS_LIKED_ERROR_CODE'), "has liked", null);
             }
-        } else {
-            $this->feedback("false", "has liked");
+        } catch (\Exception $e) {
+            $this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), null);
         }
     }
 
@@ -266,12 +285,16 @@ class SquareController extends Controller
     //取消赞工作圈
     public function unlikeSquare($account, $s_id)
     {
-        $square = new SquareModel();
-        $check  = $square->deleteLikes($account, $s_id);
-        if ($check) {
-            $this->feedback("true", $this->getSingleMoment($s_id, $account));
-        } else {
-            $this->feedback("false", "unlike failed");
+        try {
+            $square = new SquareModel();
+            $check  = $square->deleteLikes($account, $s_id);
+            if ($check) {
+                $this->feedback(C('SUCCESS_CODE'), "", $this->getSingleMoment($s_id, $account));
+            } else {
+                $this->feedback(C('SQUARE_UNLIKE_ERROR_CODE'), "unlike failed", null);
+            }
+        } catch (\Exception $e) {
+            $this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), null);
         }
     }
 
