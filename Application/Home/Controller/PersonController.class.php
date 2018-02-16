@@ -72,7 +72,7 @@ class PersonController extends Controller
                 $result             = M('user')->where($where)->save($update);
                 if ($result) {
                     //exit($this->getPerson($account));
-                    $this->feedback(C('SUCCESS_CODE'), '', $this->getPerson($account)));
+                    $this->feedback(C('SUCCESS_CODE'), '', $this->getPerson($account));
                 } else {
                     $this->feedback(C('PERSON_UPDATE_NAME_ERROR_CODE'), "Update failed", null);
                 }
