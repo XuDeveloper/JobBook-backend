@@ -26,6 +26,9 @@ class ArticleController extends Controller
             //内容...字符串封装
             $data['content'] = htmlspecialchars($data['content']);
 
+            // echo 
+            // $data['image'] = explode("/jobBook/", $data['image'])[0]
+
             //检查是否收藏
             $check['user'] = $account;
             $myLike        = M('likearticle')->where($check)->getField('article_id', true);
@@ -67,6 +70,10 @@ class ArticleController extends Controller
             }
 
             for ($i = 0; $i < count($articles); $i++) {
+                // $end = explode("/jobBook/", $articles[$i]['image'])[1];
+                $ip = "http://".C('server_address').'/';
+                $articles[$i]['image'] = $ip.$articles[$i]['image'];
+                // echo $articles[$i]['image'];
                 $articles[$i]['content'] = htmlspecialchars($articles[$i]['content']);
                 // $articles[$i]['content']=($articles[$i]['content']);
                 $articles[$i]['comments'] = array();

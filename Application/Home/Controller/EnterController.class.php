@@ -84,7 +84,7 @@ class EnterController extends Controller
                     'account'=>$sourceData['account'],
                     'password'=>$sourceData['password'],
                     'username'=>$data[0]['username'],
-                    'head'=>$data[0]['head'],
+                    'head'=>"http://".C('server_address').'/'.$data[0]['head'],
                     'telephone'=>$date[0]['telephone'],
                     'workspace'=>$data[0]['workspace'],
                     'workposition'=>$data[0]['workposition'],

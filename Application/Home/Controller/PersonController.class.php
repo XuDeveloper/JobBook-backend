@@ -87,6 +87,8 @@ class PersonController extends Controller
         $where['account'] = $account;
         $result           = M('user')->where($where)->select();
         unset($result[0]['id']);
+        $ip = "http://".C('server_address').'/';
+        $result[0]['head'] = $ip.$result[0]['head'];
         // $result[0]['userName']=$result[0]['username'];
         // unset($result[0]['username']);
         return $result[0];

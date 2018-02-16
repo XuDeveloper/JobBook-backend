@@ -43,7 +43,9 @@ class SquareModel extends Model
 		unset($userInfo[0]['devicetoken']);
 		$userInfo[0]['follow']=(int)$this->getFocuses($userInfo[0]['account']);
 		$userInfo[0]['fans']=(int)$this->getFans($userInfo[0]['account']);
-		$userInfo[0]['moment']=(int)$this->getMoments($userInfo[0]['account']);		
+		$userInfo[0]['moment']=(int)$this->getMoments($userInfo[0]['account']);	
+		$ip = "http://".C('server_address').'/';	
+		$userInfo[0]['head']=$ip.$userInfo[0]['head'];		
 		return $userInfo[0];
 	}
 
