@@ -1,0 +1,4 @@
+[ 2018-02-17T23:00:10+08:00 ] 192.168.199.188 /jobBook/index.php/enter/doRegister
+ERR: 1048:Column 'account' cannot be null
+ [ SQL语句 ] : INSERT INTO `user` (`account`,`password`,`username`,`head`,`login_time`,`devicetoken`) VALUES (NULL,NULL,NULL,'http://192.168.199.195/jobBook/Public/src/head/default.jpg','2018-02-17',NULL)
+
