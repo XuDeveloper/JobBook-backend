@@ -101,8 +101,30 @@ class SquareController extends Controller
         }
     }
 
-    //获得某条工作圈
+    // 获得某条工作圈
     public function getSingleMoment($s_id, $account)
+    {
+        try {
+            $square         = new SquareModel();
+            $data           = $square->getOneMoment($s_id);
+            $data['date']   = $this->countTime($data['date']);
+            $temporary      = $square->getMyLikes($account);
+            $data['author'] = $square->getUserInfo($data['author']);
+            if (in_array($s_id, $temporary)) {
+                $data['ifLike'] = 1;
+            } else {
+                $data['ifLike'] = 0;
+            }
+            // var_dump($temporary);
+            //var_dump($data);
+            $this->feedback(C('SUCCESS_CODE'), "", $data);
+        } catch (\Exception $e) {
+            $this->feedback(C('NETWORK_ERROR_CODE'), $e->getMessage(), null);
+        }
+    }
+
+    // 获得某条工作圈（内部方法）
+    private function getMoment($s_id, $account)
     {
         try {
             $square         = new SquareModel();
@@ -228,7 +250,7 @@ class SquareController extends Controller
 
             $square = new SquareModel();
             if ($square->addComment($data)) {
-                $this->feedback(C('SUCCESS_CODE'), "", $this->getSingleMoment($data['s_id'], $data['applier']));
+                $this->feedback(C('SUCCESS_CODE'), "", $this->getMoment($data['s_id'], $data['applier']));
             } else {
                 $this->feedback(C('SQUARE_COMMENT_ERROR_CODE'), "fail to comment", null);
             }
@@ -250,7 +272,7 @@ class SquareController extends Controller
                 );
                 if ($square->addLikes($data)) {
                     $this->sendMessage($account, $s_id);
-                    $this->feedback(C('SUCCESS_CODE'), "", $this->getSingleMoment($s_id, $account));
+                    $this->feedback(C('SUCCESS_CODE'), "", $this->getMoment($s_id, $account));
                 } else {
                     $this->feedback(C('SQUARE_LIKE_ERROR_CODE'), "fail to likes", null);
                 }
@@ -289,7 +311,7 @@ class SquareController extends Controller
             $square = new SquareModel();
             $check  = $square->deleteLikes($account, $s_id);
             if ($check) {
-                $this->feedback(C('SUCCESS_CODE'), "", $this->getSingleMoment($s_id, $account));
+                $this->feedback(C('SUCCESS_CODE'), "", $this->getMoment($s_id, $account));
             } else {
                 $this->feedback(C('SQUARE_UNLIKE_ERROR_CODE'), "unlike failed", null);
             }
